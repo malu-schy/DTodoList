@@ -1,14 +1,14 @@
 const { expect } = require("chai");
 
-describe("Greeter", function() {
-  it("Should return the new greeting once it's changed", async function() {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
+describe("Todo", function() {
+  it("Should return the new todo once it's changed", async function() {
+    const Todolist = await ethers.getContractFactory("Todolist");
+    const _todo = await Todolist.deploy("Walk The Doggo!");
     
-    await greeter.deployed();
-    expect(await greeter.greet()).to.equal("Hello, world!");
+    await _todo.deployed();
+    expect(await _todo.todo()).to.equal("Walk The Doggo!");
 
-    await greeter.setGreeting("Hola, mundo!");
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    await _todo.setTodo("Drink More Water!");
+    expect(await _todo.todo()).to.equal("Drink More Water!");
   });
 });
