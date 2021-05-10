@@ -1,19 +1,28 @@
 import React from "react";
 import Todoliste from '../artifacts/contracts/Todolist.sol/Todolist.json'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 
 const todoListAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
  function TodolistComponent () {
 
-    const [outputText, setOutputText] = useState('');
+    const [outputText, setOutputText] = useState([]);
     const [todo, setNewTodo] = useState('');
+
+    // useEffect(() => {
+    //   effect
+    //   return () => {
+    //     cleanup
+    //   }
+    //   //render on Mout [] -- render if outputText changed -> [outputText]
+    // }, [])
 
     async function requestAccount() {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
       }
 
+  
     async function fetchTodos() {
         if (typeof window.ethereum !== 'undefined') {
           const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -26,7 +35,8 @@ const todoListAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
           }
         }    
       }
-    
+
+
 
       async function setTodo() {
         if (!todo) return
@@ -41,6 +51,10 @@ const todoListAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
         }
       }
 
+      function deleteTodo(){
+        console.log("Ich bin gelöscht");
+      }
+
     return (
         <div className="App">
         <h1> Decentralized TodoList 💫 </h1> 
@@ -48,11 +62,20 @@ const todoListAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
                 <input onChange={e => setNewTodo(e.target.value)} placeholder="Hello" />
                 <button onClick={setTodo}>Add Todo</button>
                 <button onClick={fetchTodos}>Refresh TodoList</button>
-                <div className="TodolistOutput">
-                <label>Your Todos:</label>
-                <pre>{JSON.stringify(outputText, null, 2)}</pre>
-                </div>             
-            </div>
+            </div>   
+            <div className="TodolistOutput">
+              <label>Your Todos:</label>
+              {outputText.map((item, _key) => {
+              return <div className="todoItem" key={_key}>
+                    {
+                     <input type="checkbox" onChange={deleteTodo}></input>
+                     /* the following will remove qoutes from string: (Thank you Stackoverlow :D <3)
+                     replace(/^"(.+(?="$))"$/, '$1') */ }
+                      {JSON.stringify(item).replace(/^"(.+(?="$))"$/, '$1')}
+                     </div>
+                    })
+                 }
+              </div>
        </div>
     );
 }

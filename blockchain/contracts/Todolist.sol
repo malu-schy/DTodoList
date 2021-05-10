@@ -11,7 +11,6 @@ contract Todolist{
     todo1 = _todo;
   }
 
-
   function todo() public view returns (string[] memory) {
     return todos;
   }
@@ -20,8 +19,8 @@ contract Todolist{
     console.log("extend todolist with: ", _todo);
     todos.push(_todo);
   }
-    // function testfunction() public view returns (uint){
-    //   return 1; 
-    // }
 
+  function deleteTodo(string memory _todo) public {
+    console.log("delete TODO");
+  }
 }
