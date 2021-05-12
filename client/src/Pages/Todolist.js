@@ -3,32 +3,37 @@ import Todoliste from '../artifacts/contracts/Todolist.sol/Todolist.json'
 import { useState } from 'react';
 import { ethers } from 'ethers';
 
-const todoListAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const todoListAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
 
  function TodolistComponent () {
-
+    const todoListe =  []; 
     const [outputText, setOutputText] = useState([]);
     const [todo, setNewTodo] = useState('');
 
     async function requestAccount() {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
       }
-
   
     async function fetchTodos() {
         if (typeof window.ethereum !== 'undefined') {
           const provider = new ethers.providers.Web3Provider(window.ethereum)
           const contract = new ethers.Contract(todoListAddress, Todoliste.abi, provider)
           try {
-            const data = await contract.todo()
-            setOutputText(data);
+            const todoListLength = await contract.getTodoListLength();
+            for(var i = 0; i < todoListLength; i++){
+              const data = await contract.getTodoItem(i)
+              todoListe.push(data);
+              console.log(data);
+            }
+            // const data = await contract.getTodoItem(3)
+            // console.log("TodoListe hat: " + todoListLength + " Einträge");
+            console.log(todoListe);
+            setOutputText(todoListe);
           } catch (err) {
-            console.log("Error: ", err)
+            console.log("Oh no Error: ", err)
           }
         }    
       }
-
-
 
       async function setTodo() {
         if (!todo) return
