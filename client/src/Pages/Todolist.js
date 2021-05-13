@@ -3,7 +3,7 @@ import Todoliste from '../artifacts/contracts/Todolist.sol/Todolist.json'
 import { useState } from 'react';
 import { ethers } from 'ethers';
 
-const todoListAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
+const todoListAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
  function TodolistComponent () {
     const todoListe =  []; 
@@ -22,6 +22,7 @@ const todoListAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
             const todoListLength = await contract.getTodoListLength();
             for(var i = 0; i < todoListLength; i++){
               const data = await contract.getTodoItem(i)
+              // const data = await contract.getTodoItem(i)
               todoListe.push(data);
               console.log(data);
             }

@@ -9,6 +9,7 @@ contract Todolist{
   struct TodoItem{
     uint id; 
     string text;
+    bool closed; 
   }
 
   uint public todoCount; 
@@ -17,7 +18,7 @@ contract Todolist{
     todoCount = 0; 
     console.log("Deploying a TodoList with greeting:", _todo);
     todo1 = _todo;
-    todos.push(TodoItem(0,"hello Hardhat"));
+    todos.push(TodoItem(0,"hello Hardhat",true));
     // todos.push(TodoItem(1,"hello Lalalal"));
     // todos.push(TodoItem(2,"hello Solidity"));
     // getTodoListLength();
@@ -33,6 +34,14 @@ contract Todolist{
     return todos[_id].text;
   }
 
+  function isTodoClosed(uint _id) public view returns (bool) {
+    // if(todos[_id].closed == false){
+    //   return 0;
+    // } else {
+    //   return 1;
+    // }
+    return todos[_id].closed;
+  }
   // function getAllElementsOfArray() public view returns(TodoItem[] memory){
   //   return todos;
   // }
@@ -60,6 +69,7 @@ contract Todolist{
     TodoItem memory newTodoItem; 
     newTodoItem.id = todos.length -1; 
     newTodoItem.text = _todo; 
+    newTodoItem.closed = false; 
     todos.push(newTodoItem);
   }
 
